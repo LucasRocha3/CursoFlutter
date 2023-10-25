@@ -1,16 +1,17 @@
+import 'package:expenses/components/chart.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import './components/transaction_form.dart';
 import './components/transaction_list.dart';
 import '../transaction.dart';
- 
+
 main() => runApp(ExpensesApp());
- 
+
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData tema = ThemeData();
- 
+
     return MaterialApp(
       home: MyHomePage(),
       theme: tema.copyWith(
@@ -37,12 +38,12 @@ class ExpensesApp extends StatelessWidget {
     );
   }
 }
- 
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
- 
+
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
     Transaction(
@@ -58,7 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now(),
     ),
   ];
- 
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
@@ -66,14 +73,14 @@ class _MyHomePageState extends State<MyHomePage> {
       value: value,
       date: DateTime.now(),
     );
- 
+
     setState(() {
       _transactions.add(newTransaction);
     });
- 
+
     Navigator.of(context).pop();
   }
- 
+
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -82,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,14 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('Gráfico'),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_transactions),
           ],
         ),

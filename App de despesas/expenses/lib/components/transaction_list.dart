@@ -2,6 +2,7 @@ import 'package:expenses/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
 
