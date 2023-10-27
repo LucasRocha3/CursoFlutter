@@ -20,13 +20,13 @@ class ExpensesApp extends StatelessWidget {
           secondary: Colors.amber,
         ),
         textTheme: tema.textTheme.copyWith(
-          headline6: TextStyle(
+          titleLarge: TextStyle(
             fontFamily: 'OpenSans',
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
-          button: TextStyle(
+          labelLarge: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
